@@ -14,6 +14,9 @@ class Manufacturer(models.Model):
 class Driver(AbstractUser):
     license_number = models.CharField(max_length=255, unique=True)
 
+    class Meta:
+        ordering = ("username", )
+
     def get_absolute_url(self) -> object:
         return reverse("taxi:driver-detail", args=[str(self.id)])
 
@@ -24,6 +27,9 @@ class Car(models.Model):
         Manufacturer, on_delete=models.CASCADE, related_name="cars"
     )
     drivers = models.ManyToManyField(Driver, related_name="cars")
+
+    class Meta:
+        ordering = ("model", )
 
     def get_absolute_url(self) -> object:
         return reverse("taxi:car-detail", args=[str(self.id)])
